@@ -1,16 +1,20 @@
-const express = require("express");
+const app = require("./app.js");
 require("dotenv").config({ path: "config.env" });
-const app = express();
 
-app.use(express.json());
+const mongoose = require("mongoose");
 
-app.get("/", function (req, res) {
-  res.send({ msg: "hello world", statusCode: 200, status: "success" });
-});
-app.all("*", function (req, res) {
-  res.send({ msg: "route not found", statusCode: 400, status: "failed" });
-});
-
-app.listen(process.env.PORT, () => {
-  console.log(`listening on port ${process.env.PORT}`);
-});
+mongoose
+  .connect(process.env.DATABASE, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+  })
+  .then((db) => {
+    console.log("conneted to db");
+    app.listen(process.env.PORT, () => {
+      console.log(`listening on port ${process.env.PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.log(err);
+  });

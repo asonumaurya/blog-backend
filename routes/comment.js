@@ -1,0 +1,10 @@
+const express = require("express");
+const commentRoute = express.Router();
+const comment = require("../controller/comment");
+const auth = require("../controller/auth");
+commentRoute.get("/", comment.getAllComments);
+commentRoute.get("/:_id", comment.getAComment);
+commentRoute.post("/", auth.routeProtector, comment.createAComment);
+commentRoute.patch("/:_id", auth.routeProtector, comment.updateAComment);
+commentRoute.delete("/:_id", auth.routeProtector, comment.deleteAComment);
+module.exports = commentRoute;

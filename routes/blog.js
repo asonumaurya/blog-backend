@@ -1,0 +1,10 @@
+const express = require("express");
+const blogRoute = express.Router();
+const blog = require("../controller/blog");
+const auth = require("../controller/auth");
+blogRoute.get("/", blog.getAllBlogs);
+blogRoute.get("/:slugTitle", blog.getABlog);
+blogRoute.post("/", auth.routeProtector, blog.createABlog);
+blogRoute.patch("/:slugTitle", auth.routeProtector, blog.updateABlog);
+blogRoute.delete("/:slugTitle", auth.routeProtector, blog.deleteABlog);
+module.exports = blogRoute;
